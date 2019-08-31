@@ -21,19 +21,13 @@ const PARAMS = {
 //     });
 
 const timeout = 1000;
-
-const infinit = () => {
+setInterval(() => {
     sqs.sendMessage(PARAMS)
         .promise()
         .then(() => {
             console.log("Message 전송 성공");
-            setTimeout(() => {
-                infinit();
-            }, timeout);
         })
         .catch(error => {
             console.error(error);
         });
-};
-
-infinit();
+}, timeout);
