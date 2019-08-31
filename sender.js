@@ -4,7 +4,8 @@ AWS.config.loadFromPath("./config.json");
 
 // SQS 객체 생성
 const sqs = new AWS.SQS();
-const timeout = 4;
+const timeout = 1000;
+
 const go = () => {
     setInterval(() => {
         const PARAMS = {
