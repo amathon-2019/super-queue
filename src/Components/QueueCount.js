@@ -26,7 +26,7 @@ class QueueCount extends React.Component {
     }, interval);
   }
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.tasks == this.state.tasks) return false;
+    if (nextState.tasks === this.state.tasks) return false;
     else return true;
   }
   render() {
@@ -35,9 +35,15 @@ class QueueCount extends React.Component {
       <div
         style={{
           height: '400px',
+          border: 'solid',
+          borderWidth: '0 0 5px 0',
         }}
       >
         <h1>Queue {this.state.tasks} tasks</h1>
+        <br></br>
+        <br></br>
+        <br></br>
+
         <meter
           style={{width: '70%', height: '20%'}}
           value={this.state.tasks}

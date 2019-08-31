@@ -1,8 +1,8 @@
 import React from 'react';
 
 import AWS from 'aws-sdk';
-import {accessKeyId, secretAccessKey, region} from '../Config/config';
 import qURL from '../Config/qURL';
+import {accessKeyId, secretAccessKey, region} from '../Config/config';
 AWS.config.update({credentials: {accessKeyId, secretAccessKey}, region});
 
 const sqs = new AWS.SQS();
@@ -15,10 +15,11 @@ class UserCount extends React.Component {
   };
   state = {
     users: 1,
+    totalCount: 0,
   };
   intervalFunc(time) {
     return setInterval(() => {
-      const PARAMS = {
+      const params = {
         QueueUrl: qURL,
         MessageBody: new Date().getTime().toString(),
         DelaySeconds: 0,
@@ -27,10 +28,15 @@ class UserCount extends React.Component {
             .toString()
             .replace(/ /gi, ''),
       };
+
       sqs
-          .sendMessage(PARAMS)
+          .sendMessage(params)
           .promise()
           .then(() => {
+            this.setState({
+              ...this.state,
+              totalCount: this.state.totalCount + 1,
+            });
             console.log('Message 전송 성공');
           })
           .catch((error) => {
@@ -49,6 +55,7 @@ class UserCount extends React.Component {
   }
   onInput(e) {
     this.setState({
+      ...this.state,
       users: e.target.value,
     });
   }
@@ -58,10 +65,16 @@ class UserCount extends React.Component {
       <div
         style={{
           width: '50%',
+          height: '490px',
           float: 'left',
           boxSizing: 'border-box',
+          border: 'solid',
+          borderWidth: '0 5px 0 0',
         }}
       >
+        <br></br>
+        <br></br>
+
         <h1>{this.state.users} users / second</h1>
         <br></br>
         <input
@@ -76,6 +89,8 @@ class UserCount extends React.Component {
           ref="points"
           onInput={this.onInput.bind(this)}
         />
+        <br></br>
+        <h2>Total Sended Tasks : {this.state.totalCount}</h2>
       </div>
     );
   }

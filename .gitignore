@@ -7,7 +7,7 @@
 /src/config
 # testing
 /coverage
-
+./receiver.js
 # production
 /build
 
