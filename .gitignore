@@ -10,6 +10,8 @@
 ./receiver.js
 # production
 /build
+src/Config
+Dockerfile
 
 # misc
 .DS_Store
